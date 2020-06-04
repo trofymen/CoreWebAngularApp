@@ -1,0 +1,14 @@
+<div *ngIf="loaded">
+  <h2>Модель {{product.id}}</h2>
+  <div>
+    <p><b>Модель:</b> {{product.name}}</p>
+    <p><b>Производитель:</b> {{product.company}}</p>
+    <p><b>Цена:</b> {{product.price}}</p>
+    <p><a routerLink="/product-list" class="nav-link">К списку моделей</a></p>
+  </div>
+</div>
+<div *ngIf="notFound">
+  <h1>Not Found</h1>
+  <h2>Модель {{product.id}}</h2>  
+  <p><a routerLink="/product-list" class="nav-link">К списку моделей</a></p>
+</div>
