@@ -12,11 +12,12 @@ namespace CoreWebAngularApplication.Models
             : base(options)
         {
             //Database.EnsureDeleted();
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
+            Database.Migrate();
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            Product[] products = { 
+            Product[] products = {
                 new Product { Id = 1, Name = "iPhone X", Company = "Apple", Price = 79900 },
                 new Product { Id = 2, Name = "Galaxy S8", Company = "Samsung", Price = 49900 },
                 new Product { Id = 3, Name = "Pixel 2", Company = "Google", Price = 52900 }

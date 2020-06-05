@@ -19,7 +19,9 @@ export class ErrorInterceptor implements HttpInterceptor {
         //location.reload(false);
       }
 
-      const error = err.error.message || err.statusText;
+      const error = err.error?.message || err.statusText;
+      const trace = err.error?.trace || 'there is no trace';
+      console.log('Exception message: ' + error + '\n' + 'Trace: ' + trace);
       return throwError(error);
     }))
   }

@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Cors;
 namespace CoreWebAngularApplication.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]    
+    [ApiController]
     public class ProductsController : ControllerBase
     {
         private readonly ApplicationContext _context;
@@ -31,28 +31,42 @@ namespace CoreWebAngularApplication.Controllers
 
         // GET: api/Products        
         [HttpGet]
-        [IgnoreAntiforgeryToken]
+        //[IgnoreAntiforgeryToken]
         //[DisableCors]
         //[Authorize]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
-            return await _context.Products.ToListAsync();
+            try
+            {
+                return await _context.Products.ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = ex.Message, trace = ex.StackTrace });
+            }
         }
 
         //[Authorize(Roles = "admin")]
-        [IgnoreAntiforgeryToken]
+        //[IgnoreAntiforgeryToken]
         // GET: api/Products/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
-            var product = await _context.Products.FindAsync(id);
-
-            if (product == null)
+            try
             {
-                return NotFound();
-            }
+                var product = await _context.Products.FindAsync(id);
 
-            return product;
+                if (product == null)
+                {
+                    return NotFound();
+                }
+
+                return product;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = ex.Message, trace = ex.StackTrace });
+            }
         }
 
         // PUT: api/Products/5
@@ -85,10 +99,15 @@ namespace CoreWebAngularApplication.Controllers
                     throw;
                 }
             }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = ex.Message, trace = ex.StackTrace });
+            }
+
 
             return NoContent();
         }
-                
+
         // POST: api/Products
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
@@ -97,10 +116,17 @@ namespace CoreWebAngularApplication.Controllers
         [Authorize(Roles = "admin")]
         public async Task<ActionResult<Product>> PostProduct(Product product)
         {
-            _context.Products.Add(product);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Products.Add(product);
+                await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetProduct", new { id = product.Id }, product);
+                return CreatedAtAction("GetProduct", new { id = product.Id }, product);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = ex.Message, trace = ex.StackTrace });
+            }
         }
 
         // DELETE: api/Products/5        
@@ -108,21 +134,35 @@ namespace CoreWebAngularApplication.Controllers
         [Authorize(Roles = "user")]
         public async Task<ActionResult<Product>> DeleteProduct(int id)
         {
-            var product = await _context.Products.FindAsync(id);
-            if (product == null)
+            try
             {
-                return NotFound();
+                var product = await _context.Products.FindAsync(id);
+                if (product == null)
+                {
+                    return NotFound();
+                }
+
+                _context.Products.Remove(product);
+                await _context.SaveChangesAsync();
+
+                return product;
             }
-
-            _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
-
-            return product;
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = ex.Message, trace = ex.StackTrace });
+            }
         }
 
         private bool ProductExists(int id)
         {
-            return _context.Products.Any(e => e.Id == id);
+            try
+            {
+                return _context.Products.Any(e => e.Id == id);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }

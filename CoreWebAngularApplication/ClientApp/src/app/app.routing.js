@@ -16,6 +16,7 @@ var routes = [
     { path: '', component: home_component_1.HomeComponent, pathMatch: 'full', canActivate: [auth_guard_1.AuthGuard] },
     { path: 'home', component: home_component_1.HomeComponent, pathMatch: 'full', canActivate: [auth_guard_1.AuthGuard] },
     { path: 'product-list', component: product_list_component_1.ProductListComponent, canActivate: [auth_guard_1.AuthGuard] },
+    //{ path: 'product-list', component: ProductListComponent },
     { path: 'login', component: login_component_1.LoginComponent },
     { path: 'register', component: register_component_1.RegisterComponent },
     { path: 'create', component: product_create_component_1.ProductCreateComponent },
