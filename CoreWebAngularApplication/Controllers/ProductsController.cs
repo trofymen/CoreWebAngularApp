@@ -20,13 +20,6 @@ namespace CoreWebAngularApplication.Controllers
         public ProductsController(ApplicationContext context)
         {
             _context = context;
-            //if (!_context.Products.Any())
-            //{
-            //    _context.Products.Add(new Product { Name = "iPhone X", Company = "Apple", Price = 79900 });
-            //    _context.Products.Add(new Product { Name = "Galaxy S8", Company = "Samsung", Price = 49900 });
-            //    _context.Products.Add(new Product { Name = "Pixel 2", Company = "Google", Price = 52900 });
-            //    _context.SaveChanges();
-            //}
         }
 
         // GET: api/Products        
